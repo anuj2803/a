@@ -2,9 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import connectMongoDB from "./db/connectMongoDB.js";
 import cookieParser from "cookie-parser";
+import {v2 as cloudinary} from "cloudinary";
+
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
-import {v2 as cloudinary} from "cloudinary";
+import postRoutes from "./routes/post.route.js";
 //dotenv***********
 dotenv.config();
 cloudinary.config({
@@ -27,6 +29,7 @@ app.use(cookieParser());//use cookieParser() to parse incoming requests with coo
 //routes***************
 app.use("/api/auth", authRoutes); 
 app.use("/api/users", userRoutes); 
+app.use("/api/posts", postRoutes); 
 
 
 //starting the server**********
