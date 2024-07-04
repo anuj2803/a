@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import connectMongoDB from "./db/connectMongoDB.js";
@@ -19,7 +20,7 @@ cloudinary.config({
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const __dirname = path.resolve();
 //middlewares***********
 app.use(express.json());//use express.json() to parse incoming requests 
 app.use(express.urlencoded({ extended: true }));//use express.urlencoded() to parse incoming requests with urlencoded payloads
@@ -31,6 +32,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes); 
 app.use("/api/posts", postRoutes); 
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 //starting the server**********
 app.listen(PORT, () => {
