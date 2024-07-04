@@ -23,7 +23,6 @@ const SignUpPage = () => {
 	const { mutate, isError, isPending, error } = useMutation({
 		mutationFn: async ({ email, username, fullName, password }) => {
 			try {
-				// console.log(`${email} ${username} ${password}`);
 				const res = await fetch("/api/auth/signup", {
 					method: "POST",
 					headers: {
@@ -33,8 +32,8 @@ const SignUpPage = () => {
 				});
 
 				const data = await res.json();
-				if (!res.ok) throw new Error(data.error || "Failed to create account");
-				console.log(data);
+				// if (!res.ok) throw new Error(data.error || "Failed to create account");
+				// console.log(data);
 				return data;
 			} catch (error) {
 				console.error(error);
@@ -53,7 +52,7 @@ const SignUpPage = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // page won't reload
-		console.log(formData);
+		mutate(formData);
 	};
 
 	const handleInputChange = (e) => {
